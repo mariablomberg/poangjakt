@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#03151f">
+<meta name="robots" content="noindex">
+<title>Djupet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Karla:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --abyss:#03151f;
+    --deep:#0b2735;
+    --deeper:#06202c;
+    --edge:#16455c;
+    --foam:#e9f3f4;
+    --silt:#82a4b2;
+    --coral:#ff7d5c;
+    --sun:#ffc861;
+    --kelp:#3ed7a6;
+    --jelly:#b48cff;
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --body:"Karla",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--abyss);
+    color:var(--foam);
+    font-family:var(--body);
+    font-size:17px;
+    line-height:1.45;
+    -webkit-text-size-adjust:100%;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(120% 60% at 50% -10%, rgba(62,215,166,.14), transparent 60%),
+      radial-gradient(90% 50% at 10% 0%, rgba(180,140,255,.10), transparent 55%);
+    animation:drift 22s ease-in-out infinite alternate;
+  }
+  @keyframes drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,26px,0)}}
+  @media (prefers-reduced-motion:reduce){body::before{animation:none}}
+
+  .wrap{position:relative;z-index:1;max-width:38rem;margin:0 auto;padding:1.5rem 1.15rem 3rem}
+
+  /* --- Rubrik --- */
+  .head{display:flex;align-items:baseline;gap:.7rem;padding-bottom:.5rem}
+  .eyebrow{
+    font-family:var(--body);font-weight:700;font-size:.72rem;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--silt);
+  }
+  .nr{
+    font-family:var(--display);
+    font-variation-settings:"SOFT" 40,"WONK" 1,"opsz" 144;
+    font-weight:900;
+    font-size:clamp(4.5rem,26vw,7.5rem);
+    line-height:.82;
+    letter-spacing:-.03em;
+    color:var(--foam);
+    font-variant-numeric:tabular-nums;
+  }
+  .rule{height:1px;background:linear-gradient(90deg,var(--edge),transparent);margin:.9rem 0 1.5rem}
+
+  /* --- Uppgiftspaneler --- */
+  .kort{display:flex;flex-direction:column;gap:.85rem}
+  .uppg{
+    position:relative;
+    background:var(--deep);
+    border-left:4px solid var(--rail);
+    border-radius:0 10px 10px 0;
+    padding:.95rem 1.1rem 1.05rem;
+  }
+  .uppg[data-lvl="1"]{--rail:var(--coral)}
+  .uppg[data-lvl="2"]{--rail:var(--sun)}
+  .uppg[data-lvl="3"]{--rail:var(--kelp)}
+  .uppg[data-lvl="4"]{--rail:var(--jelly)}
+  .lvl{
+    display:flex;align-items:center;gap:.45rem;
+    font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--rail);margin-bottom:.4rem;
+  }
+  .txt{
+    font-family:var(--display);
+    font-variation-settings:"SOFT" 30,"WONK" 0,"opsz" 40;
+    font-weight:400;
+    font-size:1.28rem;
+    line-height:1.32;
+    text-wrap:balance;
+    margin:0;
+  }
+  .uppg[data-lvl="4"] .txt{font-size:1.18rem}
+
+  /* --- Fot --- */
+  .regel{
+    margin-top:1.6rem;padding:.9rem 1rem;
+    border:1px dashed var(--edge);border-radius:10px;
+    color:var(--silt);font-size:.88rem;line-height:1.5;
+  }
+  .regel b{color:var(--foam);font-weight:700}
+
+  /* --- Startsida --- */
+  .intro .lead{
+    font-family:var(--display);
+    font-variation-settings:"SOFT" 40,"WONK" 1,"opsz" 100;
+    font-weight:700;font-size:2rem;line-height:1.12;margin:.2rem 0 .8rem;text-wrap:balance;
+  }
+  .intro p{color:var(--silt);margin:0 0 1rem}
+  .steg{list-style:none;padding:0;margin:0 0 1.6rem;display:flex;flex-direction:column;gap:.7rem}
+  .steg li{display:flex;gap:.8rem;align-items:flex-start;color:var(--foam)}
+  .steg span{
+    flex:0 0 1.6rem;height:1.6rem;border-radius:50%;
+    background:var(--deeper);border:1px solid var(--edge);
+    display:grid;place-items:center;
+    font-size:.8rem;font-weight:700;color:var(--kelp);font-variant-numeric:tabular-nums;
+  }
+  .fel{color:var(--coral)}
+
+  /* --- Avslöja --- */
+  .fraga{
+    font-family:var(--display);
+    font-variation-settings:"SOFT" 40,"WONK" 1,"opsz" 60;
+    font-weight:700;font-size:1.55rem;line-height:1.2;margin:0 0 1.1rem;text-wrap:balance;
+  }
+  .visa{
+    display:block;width:100%;
+    background:var(--kelp);color:var(--abyss);border:0;border-radius:10px;
+    font-family:var(--body);font-weight:700;font-size:1.08rem;padding:1rem 1.2rem;cursor:pointer;
+  }
+  .visa:active{transform:translateY(1px)}
+  .inte{color:var(--silt);font-size:.95rem;margin:1rem 0 0}
+  :focus-visible{outline:2px solid var(--kelp);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+/* [1-3 år: uppdrag, 4-6 år, 7-9 år, vuxen] */
+var R = [null,
+["Simma med armarna som en fisk","Vilken färg har Nemo?","Vad heter världens största hav?","🎬 Vilken film? 🦈 (1975, Spielberg)"],
+["Blås bubblor med munnen","Hur många armar har en bläckfisk?","Hur många hjärtan har en bläckfisk?","Hela laget gör en synkroniserad vågen. Tre sekunder."],
+["Klappa händerna som en säl","Bor fisken i vatten eller i ett träd?","Vad kallas en grupp fiskar som simmar tillsammans?","Vilket år sjönk Titanic?"],
+["Gör en fiskmun","Vad heter Nemos pappa?","Vad heter världens djupaste plats i havet?","🎬 Vilken film? 🐠🔍"],
+["Hoppa tre gånger som en delfin","Vilket djur är störst i havet?","Hur många ben har en krabba, klorna inräknade?","Sjung refrängen på en låt som innehåller hav, vatten eller regn."],
+["Gå i sidled som en krabba","Kan en haj flyga?","Vilket hav ligger öster om Sverige?","Vad kallas ett fartygs vänstra sida?"],
+["Vifta med armarna som en manet","Vad andas fiskar med?","Kan en sjöstjärna få tillbaka en avbruten arm?","Beskriv en hummer för någon som aldrig sett en. Utan orden röd, klo och skal."],
+["Säg PLASK så högt du kan","Vilken färg är havet oftast?","Vad heter Sveriges största sjö?","🎬 Vilken bok? 🐳🚢🧔"],
+["Hitta något blått","Har en sjöstjärna armar eller ben?","Vad andas en delfin med?","Ungefär hur många öar har Stockholms skärgård?"],
+["Vinka med alla fingrar som en bläckfisk","Vad heter den lilla sjöjungfrun?","Vilken färg har en bläckfisks blod?","Härma en mås som just fått tag i en pommes."],
+["Låt som en val: huuuuu","Vad bor snäckan i?","Vad heter det när vattnet stiger och sjunker vid kusten?","Vad heter Jacques Cousteaus berömda forskningsfartyg?"],
+["Snurra runt ett varv","Vad fiskar man med?","Hur gammal kan en grönlandshaj bli?","🎬 Vad betyder detta? 🐟🍟"],
+["Håll för näsan och huka dig — dyk!","Kan man dricka havsvatten?","Vilken fisk kan ge elektriska stötar?","Säg en mening på minst fem ord där varje ord börjar på S."],
+["Hitta en sten","Vilket djur klipper med klorna?","Fryser saltvatten vid samma temperatur som sötvatten?","Vilken är världens giftigaste manet?"],
+["Stampa som en glad pingvin","Vilket djur sprutar vatten ur huvudet?","Vad heter världens största korallrev?","🎬 Vilken figur? 🧽⬜🩳"],
+["Öppna och stäng munnen fem gånger som en fisk","Har delfinen päls?","Vilket djur har världens största ögon?","Gör en femton sekunder lång naturdokumentär om ett lag som letar siffror i en trädgård."],
+["Gör dig så liten som en räka","Vad heter det när man håller andan under vattnet?","Vad heter kaptenen i Jules Vernes bok om ubåten?","Vad kallas ett fartygs högra sida?"],
+["Gör dig så stor som en haj","Vad flyter: en sten eller en pinne?","Kan hajar simma baklänges?","🎬 Vilken film? 🐢🥷🍕"],
+["Hitta något grönt","Vilket djur bär sitt hus på ryggen i vattnet?","Ungefär hur stor del av jorden täcks av vatten?","Uppfinn ett nytt havsdjur. Namnge det och berätta vad det äter."],
+["Räck upp båda armarna som en sjöstjärna","Vad har man på fötterna när man dyker?","Vad heter det djur som kan byta färg på en sekund?","Vad heter världens största fisk?"],
+["Vagga fram och tillbaka som en sjöhäst","Vilken färg har en kokt hummer?","Hur många knop är en knop i kilometer i timmen?","🎬 Vilken film? 🐧💃"],
+["Låt som en motorbåt: brrrrr","Vad heter fisken som blåser upp sig?","Vad heter det svenska regalskepp som sjönk 1628?","Recitera en dikt på fyra rader om en räka. Den ska rimma."],
+["Ta någon i handen och skratta högt","Vad heter det stora skepp som sjönk och blev film?","Vad kallas ett hav som är helt omgivet av land?","Vilket djur är känt för att bära en sten under armen?"],
+["Gå på tå, tyst som en haj","Vad har pirater för sig på ögat?","Vad heter det när ett fartyg går under?","🎬 Vilken låt? 🦀🎶🌊 (Disney, 1989)"],
+["Hitta något gult","Vad heter huset där man tittar på fiskar?","Vad heter Sveriges djupaste sjö?","Imitera värdparet så bra att någon annan känner igen dem."],
+["Peka på din näsa","Är en val en fisk?","Vad använder delfiner för att hitta i mörkret?","Hur många kammare har ett fiskhjärta?"],
+["Ge alla i laget en high five","Vad äter fiskar?","Vad heter det giftiga djur som ser ut som en plastpåse?","🎬 Vilken film? 🚣🐅🌊"],
+["Låt som en mås","Är sjögräs grönt eller lila?","Vad heter Ariels bästa vän, fisken?","Gör en femton sekunder lång reklamfilm för surströmming på tub."],
+["Blinka med ena ögat","Hur många ögon har en fisk?","Kan en fisk drunkna?","Vilket hav ligger mellan Europa och Afrika?"],
+["Hoppa på ett ben tre gånger","Vad heter det vita som ligger på stranden?","Vad heter det grekiska havsmonstret med många huvuden?","Alla i laget står på ett ben tills nästa fråga är uppläst."],
+["Krama någon i laget","Vad heter djuret som ser ut som en häst i havet?","Vad heter världens längsta flod?","🎬 Vilken figur? 🔱🧔🌊 (grekisk mytologi)"],
+["Gäspa så stort du kan","Vilken bokstav börjar ordet haj på?","Hur många liter vatten går det på en kubikmeter?","Berätta en pinsam badhushistoria. Sann eller påhittad — laget avgör."],
+["Rulla armarna som en våg","Kan en fisk gå?","Vad kallas ett djur som lever både i vatten och på land?","Vad är plankton?"],
+["Viska ordet hemligt","Vad har man på sig när man badar?","Vad heter det största landdjuret?","🎬 Vilken film? 🏴‍☠️💀⚓ (Depp, 2003)"],
+["Hitta något mjukt","Vad heter det när vattnet rör sig upp och ner?","Vad heter Sveriges längsta bro över vatten?","Beskriv ditt förhållande till kallbad i exakt tre ord."],
+["Gunga fram och tillbaka som en båt","Är vatten vått eller torrt?","Vad kallas ett skepp som åker under vattnet?","Vilket land äter mest fisk per person?"],
+["Räck ut tungan","Vilket djur i havet har taggar överallt?","Vad kallas den plana ytan man står på ombord?","🎬 Vad föreställer detta? 🌊🌊🏘️💥"],
+["Applådera dig själv","Sover fiskar?","Ungefär hur många hajarter finns det?","Gör en tio sekunder lång opera om att tappa nyckeln i sjön."],
+["Nicka ja tre gånger","Vilken färg blir man om man fryser i vattnet?","Vad kallas en erfaren gammal sjöman?","Hur lång tid tar det ungefär för en plastpåse att brytas ned i havet?"],
+["Hitta ett löv","Hur många ben har en sjöhäst?","Hur många armar har en sjöstjärna oftast?","🎬 Vilken sport? 🏊‍♀️🥇🇸🇪 (Sarah S)"],
+["Sträck ut armarna som fenor och glid","Kan man ha en fisk som husdjur?","Hur många tänder kan en haj slita ut under sitt liv?","Sälj den här trädgården till en främling. Tjugo sekunder. Var övertygande."],
+["Hitta något runt","Vad heter en riktigt liten fisk?","Vad heter det när vatten blir till ånga?","Säg sex laxar i en laxask tre gånger snabbt. Alla vuxna."],
+["Gör en grimas","Hur låter en mås?","Vilket vatten är saltast i världen?","🎬 Vilken film? 🐟🌊🎣👴 (Hemingway)"],
+["Vinka hej då till en fisk","Vad heter Ariels pappa?","Vad heter det när man tar upp fisk med stora nät?","Hela laget bildar en enda bläckfisk. Åtta armar, en kropp."],
+["Klappa i händerna tre gånger","Har krabban skal eller päls?","Hur djupt är Östersjön som djupast, ungefär?","Gör en stumfilmsscen: Fiskaren som förlorade allt. Ingen får prata."],
+["Skratta som en pirat: ho ho ho","Vad säger man när man hittar en skatt?","Vad står SOS för?","🎬 Vilken film? 🐠💙🤔 (uppföljaren, 2016)"],
+["Trampa vatten på stället","Vilket djur har ränder och simmar?","Hur långt kan en kejsarpingvin dyka?","Hela laget gör en gemensam suck som varar i fem sekunder."],
+["Hitta något som luktar","Vad heter valens barn?","Vilken kroppsdel använder hajen för att känna elektriska fält?","Håll ett tacktal: ni har just vunnit Årets Sandslott."],
+["Gör en stor kram i luften","Vad heter det när havet drar sig tillbaka?","Vad heter isen som flyter i havet vid polerna?","Gör en haj-attack i slow motion. Hela laget."],
+["Räck upp armarna och ropa HURRA","Vad säger man när man vinner?","Hur många hav brukar man säga att jorden har?","Sista rutan. Utbringa en skål — hitta på anledningen själva."]
+];
+
+var C = {"w9s6d":1,"42smv":2,"8f4xn":3,"vgxz9":4,"vdccf":5,"fd6jh":6,"r4tps":7,"242ud":8,"ffkts":9,"s7kpz":10,"77ux7":11,"xrk8w":12,"x8ggk":13,"8dvpf":14,"w6xwq":15,"5cdva":16,"ywqqn":17,"j4wrv":18,"3yuhv":19,"n3jsy":20,"nydku":21,"zuuqf":22,"ny2pm":23,"yrgwy":24,"7w82n":25,"f44rw":26,"gpqnv":27,"t4ufm":28,"5jeya":29,"fhjvn":30,"xy5x2":31,"t7pa2":32,"g64mj":33,"bz3vn":34,"ypbyd":35,"br389":36,"cs76b":37,"ezp29":38,"4bkqt":39,"2q254":40,"4e9gb":41,"wwu4f":42,"c3bcr":43,"f4rzu":44,"kshwq":45,"ezjxf":46,"nsuxs":47,"5ds85":48,"mhwky":49,"whcjy":50};
+
+var LVL = [
+  {n:"1–3 år",  t:"Uppdrag",  e:"🐠"},
+  {n:"4–6 år",  t:"Fråga",    e:"🐡"},
+  {n:"7–9 år",  t:"Fråga",    e:"🐬"},
+  {n:"Vuxen",   t:"Uppgift",  e:"🦑"}
+];
+
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+
+function topp(n){
+  return '<div class="head"><span class="eyebrow">Ruta</span></div>'
+       + '<div class="nr">'+n+'</div><div class="rule"></div>';
+}
+
+function avsloja(n){
+  return topp(n)
+    + '<p class="fraga">Är det här er ruta?</p>'
+    + '<button class="visa" id="visa" type="button">Ja — visa uppgifterna</button>'
+    + '<p class="inte">Inte er siffra? Leta vidare i trädgården.</p>';
+}
+
+function ruta(n){
+  var d = R[n];
+  var h = topp(n) + '<div class="kort">';
+  for(var i=0;i<4;i++){
+    h += '<div class="uppg" data-lvl="'+(i+1)+'">'
+       +   '<div class="lvl">'+LVL[i].e+' '+LVL[i].n+' · '+LVL[i].t+'</div>'
+       +   '<p class="txt">'+esc(d[i])+'</p>'
+       + '</div>';
+  }
+  return h + '</div><div class="regel">Laget klarar rutan när <b>vuxenuppgiften</b> är löst '
+     + 'och <b>yngsta medlemmen</b> gjort sin. Gå tillbaka till spelplanen och svara lekledaren.</div>';
+}
+
+function start(okand){
+  return '<div class="intro">'
+    + '<div class="eyebrow">Poängjakt</div>'
+    + (okand
+        ? '<p class="lead fel">Den här koden känns inte igen.</p><p>Scanna QR-koden en gång till, eller visa den för lekledaren.</p>'
+        : '<p class="lead">Femtio QR-koder ligger gömda i trädgården.</p>')
+    + '<ul class="steg">'
+    +   '<li><span>1</span><div>Slå tärningen vid spelplanen och flytta fram till er nya ruta.</div></li>'
+    +   '<li><span>2</span><div>Leta QR-koder i trädgården och scanna dem tills ni hittar er siffra.</div></li>'
+    +   '<li><span>3</span><div>Lös uppgifterna, gå tillbaka till spelplanen och svara lekledaren.</div></li>'
+    +   '<li><span>4</span><div>Rätt svar ger ett nytt tärningskast.</div></li>'
+    + '</ul></div>';
+}
+
+function rita(){
+  var k = location.hash.slice(1).toLowerCase();
+  var n = C[k];
+  var app = document.getElementById("app");
+  if(n){
+    app.innerHTML = avsloja(n);
+    document.getElementById("visa").addEventListener("click", function(){
+      app.innerHTML = ruta(n);
+      window.scrollTo(0,0);
+    });
+  } else {
+    app.innerHTML = start(k.length > 0);
+  }
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", rita);
+rita();
+</script>
+</body>
+</html>
