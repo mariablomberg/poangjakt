@@ -175,7 +175,7 @@ function uppgift(i, u){
 }
 function rita(){
   var n = Math.min(50, Math.max(1, parseInt(location.hash.slice(1),10) || 1));
-  var h = '<div class="topp"><div class="badge">'+n+'</div><span class="remo">'+E[n]+'</span><span class="av">av 50</span></div><div class="kort">';
+  var h = '<div class="topp"><div class="badge">'+n+'</div><span class="remo">'+E[n]+'</span></div><div class="kort">';
   for(var i=0;i<4;i++) h += uppgift(i, D[n][i]);
   h += '</div><div class="pilar"><button class="btn" id="bak" type="button"'+(n===1?' disabled':'')+'>← Föregående</button>'
      + '<button class="btn" id="fram" type="button"'+(n===50?' disabled':'')+'>Nästa →</button></div>';
