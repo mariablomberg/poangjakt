@@ -77,10 +77,10 @@
     border-radius:0 10px 10px 0;
     padding:.95rem 1.1rem 1.05rem;
   }
-  .uppg[data-lvl="1"]{--rail:var(--coral)}
-  .uppg[data-lvl="2"]{--rail:var(--sun)}
-  .uppg[data-lvl="3"]{--rail:var(--kelp)}
-  .uppg[data-lvl="4"]{--rail:var(--jelly)}
+  [data-lvl="1"]{--rail:var(--coral)}
+  [data-lvl="2"]{--rail:var(--sun)}
+  [data-lvl="3"]{--rail:var(--kelp)}
+  [data-lvl="4"]{--rail:var(--jelly)}
   .lvl{
     display:flex;align-items:center;gap:.45rem;
     font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
@@ -136,6 +136,36 @@
   .visa:active{transform:translateY(1px)}
   .inte{color:var(--silt);font-size:.95rem;margin:1rem 0 0}
   :focus-visible{outline:2px solid var(--kelp);outline-offset:2px}
+
+  /* --- Lagregistrering --- */
+  .lag{display:flex;flex-direction:column;gap:.6rem;margin:0 0 1.4rem}
+  .rad{
+    display:flex;align-items:center;justify-content:space-between;gap:.8rem;
+    background:var(--deep);border-left:4px solid var(--rail);border-radius:0 10px 10px 0;
+    padding:.55rem .65rem .55rem 1rem;
+  }
+  .vem{font-size:1.05rem;color:var(--foam);transition:opacity .15s}
+  .vem b{font-weight:700}
+  .rad.noll .vem{opacity:.5}
+  .step{display:flex;align-items:center;gap:.45rem}
+  .step button{
+    width:2.6rem;height:2.6rem;border-radius:50%;
+    border:1px solid var(--edge);background:var(--deeper);color:var(--foam);
+    font-family:var(--body);font-size:1.35rem;line-height:1;cursor:pointer;
+  }
+  .step button:active{background:var(--edge)}
+  .step output{
+    min-width:1.6rem;text-align:center;
+    font-family:var(--display);font-weight:700;font-size:1.45rem;font-variant-numeric:tabular-nums;
+  }
+  .visa:disabled{opacity:.35;cursor:not-allowed}
+  .laginfo{color:var(--silt);font-size:.9rem;margin:-.5rem 0 1.2rem}
+  .laginfo b{color:var(--foam);font-weight:500}
+  .andra{
+    display:inline-block;margin-top:1.4rem;background:none;border:0;padding:0 0 1px;
+    color:var(--silt);font-family:var(--body);font-size:.88rem;
+    border-bottom:1px solid var(--edge);cursor:pointer;
+  }
 </style>
 </head>
 <body>
@@ -202,8 +232,26 @@ var LVL = [
   {n:"1–3 år",  t:"Uppdrag",  e:"🐠"},
   {n:"4–6 år",  t:"Fråga",    e:"🐡"},
   {n:"7–9 år",  t:"Fråga",    e:"🐬"},
-  {n:"Vuxen",   t:"Uppgift",  e:"🦑"}
+  {n:"Vuxna",   t:"Uppgift",  e:"🦑"}
 ];
+
+/* Laget sparas i telefonen */
+var KEY = "poangjakt-lag", minne = null;
+function lasLag(){
+  try{ var v = JSON.parse(localStorage.getItem(KEY)); if(v && v.length===4 && summa(v)>0) return v; }catch(e){}
+  return minne;
+}
+function sparaLag(v){ minne = v; try{ localStorage.setItem(KEY, JSON.stringify(v)); }catch(e){} }
+function summa(v){ return v[0]+v[1]+v[2]+v[3]; }
+function beskriv(v){
+  var p = [];
+  for(var i=0;i<4;i++) if(v[i]) p.push(v[i]+' × '+LVL[i].n);
+  return p.join(' · ');
+}
+
+var app = document.getElementById("app");
+var aktuell = null;   // ruta som väntar på att visas
+var utkast = null;
 
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
 
@@ -212,54 +260,93 @@ function topp(n){
        + '<div class="nr">'+n+'</div><div class="rule"></div>';
 }
 
+function lagForm(){
+  utkast = (lasLag() || [0,0,0,0]).slice();
+  var h = '<div class="intro"><div class="eyebrow">Poängjakt · Ert lag</div>'
+    + '<p class="lead">Vilka är med i ert lag?</p>'
+    + '<p>Ni får en uppgift för varje åldersgrupp som är med.</p><div class="lag">';
+  for(var i=0;i<4;i++){
+    h += '<div class="rad'+(utkast[i]?'':' noll')+'" data-lvl="'+(i+1)+'" id="r'+i+'">'
+       +   '<span class="vem">'+LVL[i].e+' <b>'+LVL[i].n+'</b></span>'
+       +   '<span class="step">'
+       +     '<button type="button" data-i="'+i+'" data-d="-1" aria-label="En färre, '+LVL[i].n+'">−</button>'
+       +     '<output id="o'+i+'" aria-live="polite">'+utkast[i]+'</output>'
+       +     '<button type="button" data-i="'+i+'" data-d="1" aria-label="En till, '+LVL[i].n+'">+</button>'
+       +   '</span></div>';
+  }
+  h += '</div><button class="visa" id="spara" type="button"'+(summa(utkast)?'':' disabled')+'>Spara laget</button>'
+     + '<p class="inte">Sparas i den här telefonen. Använd samma telefon under hela jakten.</p></div>';
+  app.innerHTML = h;
+  window.scrollTo(0,0);
+}
+
 function avsloja(n){
-  return topp(n)
+  app.innerHTML = topp(n)
     + '<p class="fraga">Är det här er ruta?</p>'
     + '<button class="visa" id="visa" type="button">Ja — visa uppgifterna</button>'
     + '<p class="inte">Inte er siffra? Leta vidare i trädgården.</p>';
+  window.scrollTo(0,0);
 }
 
 function ruta(n){
-  var d = R[n];
-  var h = topp(n) + '<div class="kort">';
+  var d = R[n], lag = lasLag() || [1,1,1,1];
+  var h = topp(n) + '<p class="laginfo">Ert lag: <b>'+beskriv(lag)+'</b></p><div class="kort">';
   for(var i=0;i<4;i++){
+    if(!lag[i]) continue;
     h += '<div class="uppg" data-lvl="'+(i+1)+'">'
        +   '<div class="lvl">'+LVL[i].e+' '+LVL[i].n+' · '+LVL[i].t+'</div>'
        +   '<p class="txt">'+esc(d[i])+'</p>'
        + '</div>';
   }
-  return h + '</div><div class="regel">Laget klarar rutan när <b>vuxenuppgiften</b> är löst '
-     + 'och <b>yngsta medlemmen</b> gjort sin. Gå tillbaka till spelplanen och svara lekledaren.</div>';
+  app.innerHTML = h + '</div><div class="regel">Rutan är klar när <b>varje åldersgrupp</b> i laget har klarat sin uppgift. '
+     + 'Gå tillbaka till spelplanen och svara lekledaren.</div>'
+     + '<button class="andra" id="andra" type="button">Ändra laget</button>';
+  window.scrollTo(0,0);
 }
 
-function start(okand){
-  return '<div class="intro">'
+function hem(okand){
+  var lag = lasLag();
+  app.innerHTML = '<div class="intro">'
     + '<div class="eyebrow">Poängjakt</div>'
     + (okand
         ? '<p class="lead fel">Den här koden känns inte igen.</p><p>Scanna QR-koden en gång till, eller visa den för lekledaren.</p>'
         : '<p class="lead">Femtio QR-koder ligger gömda i trädgården.</p>')
+    + (lag ? '<p class="laginfo" style="margin:0 0 1.2rem">Ert lag: <b>'+beskriv(lag)+'</b></p>' : '')
     + '<ul class="steg">'
     +   '<li><span>1</span><div>Slå tärningen vid spelplanen och flytta fram till er nya ruta.</div></li>'
     +   '<li><span>2</span><div>Leta QR-koder i trädgården och scanna dem tills ni hittar er siffra.</div></li>'
     +   '<li><span>3</span><div>Lös uppgifterna, gå tillbaka till spelplanen och svara lekledaren.</div></li>'
     +   '<li><span>4</span><div>Rätt svar ger ett nytt tärningskast.</div></li>'
-    + '</ul></div>';
+    + '</ul>'
+    + '<button class="andra" id="andra" type="button">Ändra laget</button></div>';
+  window.scrollTo(0,0);
 }
+
+app.addEventListener("click", function(e){
+  var b = e.target.closest("button");
+  if(!b) return;
+  if(b.dataset.d){
+    var i = +b.dataset.i;
+    utkast[i] = Math.max(0, Math.min(9, utkast[i] + (+b.dataset.d)));
+    document.getElementById("o"+i).textContent = utkast[i];
+    document.getElementById("r"+i).classList.toggle("noll", !utkast[i]);
+    document.getElementById("spara").disabled = !summa(utkast);
+  } else if(b.id === "spara"){
+    sparaLag(utkast.slice());
+    aktuell ? avsloja(aktuell) : hem(false);
+  } else if(b.id === "visa"){
+    ruta(aktuell);
+  } else if(b.id === "andra"){
+    lagForm();
+  }
+});
 
 function rita(){
   var k = location.hash.slice(1).toLowerCase();
-  var n = C[k];
-  var app = document.getElementById("app");
-  if(n){
-    app.innerHTML = avsloja(n);
-    document.getElementById("visa").addEventListener("click", function(){
-      app.innerHTML = ruta(n);
-      window.scrollTo(0,0);
-    });
-  } else {
-    app.innerHTML = start(k.length > 0);
-  }
-  window.scrollTo(0,0);
+  aktuell = C[k] || null;
+  if(!lasLag()) return lagForm();
+  if(aktuell) avsloja(aktuell);
+  else hem(k.length > 0);
 }
 window.addEventListener("hashchange", rita);
 rita();
