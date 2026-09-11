@@ -40,12 +40,14 @@
   }
 
   .badge{
-    display:grid;place-items:center;flex:0 0 auto;width:8.6rem;height:8.6rem;border-radius:50%;
+    display:grid;place-items:center;flex:0 0 auto;width:7.4rem;height:7.4rem;border-radius:50%;
     background:var(--green);color:var(--ink);transform:rotate(-7deg);
-    font-family:var(--display);font-weight:900;font-size:4.3rem;letter-spacing:-.05em;line-height:1;
+    font-family:var(--display);font-weight:900;font-size:3.9rem;letter-spacing:-.05em;line-height:1;
     box-shadow:0 8px 0 rgba(0,0,0,.18);font-variant-numeric:tabular-nums;
   }
-  .remo{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:2.4rem;vertical-align:-.25rem;display:inline-block;margin-left:.15rem}
+  .topp{display:flex;align-items:center;gap:1.1rem;padding:.3rem .2rem .1rem}
+  .topp .av{margin-left:auto;font-weight:800;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+  .remo{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:4.2rem;line-height:1;filter:drop-shadow(0 6px 8px rgba(0,0,0,.18))}
   .badge small{font-family:var(--body);font-weight:800;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:-.6rem}
 
   /* Uppgiftskort */
@@ -190,9 +192,7 @@ function uppgift(i, u){
 
 function ruta(n){
   var lag = lasLag() || [true,true,true,true];
-  var h = '<div class="block yellow" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:11rem">'
-        +   '<div><p class="eyebrow">Ni hittade</p><h2>Ruta '+n+' <span class="remo">'+E[n]+'</span></h2>'+chips(lag)+'</div>'
-        +   '<div class="badge"><small>Ruta</small>'+n+'</div></div><div class="kort">';
+  var h = '<div class="topp"><div class="badge">'+n+'</div><span class="remo">'+E[n]+'</span></div><div class="kort">';
   for(var i=0;i<4;i++) if(lag[i]) h += uppgift(i, D[n][i]);
   h += '</div><div class="block green"><h2>Klara? Spring till spelplanen!</h2><p>Berätta svaren för lekledaren. Rätt svar ger ett nytt tärningskast.</p></div>'
      + '<button class="lank" id="andra" type="button">Ändra laget</button>';
